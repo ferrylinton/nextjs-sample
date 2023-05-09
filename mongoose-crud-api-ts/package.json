@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev | rotate-logs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -12,14 +12,21 @@
     "@types/node": "20.1.0",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
+    "@vrbo/pino-rotating-file": "^4.4.0",
     "autoprefixer": "10.4.14",
+    "dotenv": "^16.0.3",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
+    "mongoose": "^7.1.0",
     "next": "13.4.1",
+    "pino": "^8.14.1",
     "postcss": "8.4.23",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "pino-pretty": "^10.0.0"
   }
 }
