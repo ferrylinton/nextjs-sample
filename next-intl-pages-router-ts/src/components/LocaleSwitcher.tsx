@@ -9,7 +9,7 @@ const LocaleSwitcher = () => {
     const router = useRouter();
 
     function onSelectChange(event: ChangeEvent<HTMLSelectElement>) {
-        router.push(router.pathname, router.pathname, { locale: event.target.value });
+        router.push(router.asPath, router.asPath, { locale: event.target.value });
     }
 
     return (

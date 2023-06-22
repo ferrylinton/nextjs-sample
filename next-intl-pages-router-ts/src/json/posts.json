@@ -1,0 +1,23 @@
+[
+    {
+        "slug": "one",
+        "titleID": "Satu #1",
+        "titleEN": "One #1",
+        "descriptionID": "Deskripsi tentang satu #1",
+        "descriptionEN": "One's description #1"
+    },
+    {
+        "slug": "two",
+        "titleID": "Dua #2",
+        "titleEN": "Two #2",
+        "descriptionID": "Deskripsi tentang dua #2",
+        "descriptionEN": "Two's description #2"
+    },
+    {
+        "slug": "three",
+        "titleID": "Tiga #3",
+        "titleEN": "Three #3",
+        "descriptionID": "Deskripsi tentang dua #3",
+        "descriptionEN": "Three's description #3"
+    }
+]
