@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --radix-select-trigger-width: 500px
+}
+
+svg{
+    fill: currentColor;
+}
