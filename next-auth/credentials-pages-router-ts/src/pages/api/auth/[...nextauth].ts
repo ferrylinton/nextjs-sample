@@ -1,38 +1,49 @@
-import NextAuth from 'next-auth';
+import NextAuth, { User } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 
 export default NextAuth({
   pages: {
-    signIn: '/',
+    signIn: '/login',
   },
   providers: [
     CredentialsProvider({
       id: 'credentials',
       name: 'Credentials',
-      username: {
-        label: "Username",
-        type: "text",
+      credentials: {
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
       },
-      password: {
-        label: "Password",
-        type: "password"
-      },
-      //@ts-ignore
-      async authorize(credentials: any) {
-        const { username, password } = credentials;
-
-        if (username === 'admin' && password === 'admin') {
+      async authorize(credentials: Record<"username" | "password", string> | undefined): Promise<User | null> {
+        if (credentials?.username === 'admin' && credentials.password === 'admin') {
           return {
-            id: 1,
+            id: "id",
             name: "admin",
+            username: "admin",
             email: "admin@gmail.com",
-            image: null
+            role: "Admin"
           }
         } else {
           return null;
         }
       },
     }),
-  ]
+  ],
+  session: {
+    strategy: "jwt",
+    maxAge: 60,
+  },
+  jwt: {
+    maxAge: 60,
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+
+    async session({ session, token }) {
+      session.user = token as any;
+      return session;
+    }
+  }
 });

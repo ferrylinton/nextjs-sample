@@ -1,9 +1,18 @@
-import React, { FormEvent, useState } from 'react';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { generateToken } from '@/libs/jose';
+import { GetServerSidePropsContext } from 'next';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { FormEvent, useState } from 'react';
 
-type Props = {}
+type Props = {
+    callbackUrl: string
+}
 
-export default function LoginPage({ }: Props) {
+export default function LoginPage({ callbackUrl }: Props) {
+
+    const router = useRouter()
+
+    const [error, setError] = useState(false);
 
     const [state, setState] = useState({
         username: "",
@@ -17,25 +26,29 @@ export default function LoginPage({ }: Props) {
 
     const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(state);
-
         const { username, password } = state;
+
         await signIn('credentials', {
             username,
             password,
-            callbackUrl: `${window.location.origin}/profile`,
-            redirect: true
+            redirect: false
         }).then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            console.log(response);
+            if (response?.ok) {
+                router.push(callbackUrl || '/profile')
+            } else {
+                setError(true);
+            }
+        }).catch((error) => {
+            setError(true);
+            console.log(error);
+        });
     };
 
     return (
         <main className='flex flex-col h-[calc(100vh-50px)] items-center justify-center'>
-            <div className="text-xl uppercase pb-3 text-slate-500">Login</div>
+            <div className="text-xl uppercase pb-5 text-slate-500">Login</div>
+            {error && <div className='text-red-500 pb-4'>Invalid username or password</div>}
             <form
                 className='w-[300px] flex flex-col gap-3'
                 noValidate
@@ -67,4 +80,14 @@ export default function LoginPage({ }: Props) {
             </form>
         </main>
     )
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+    const callbackUrl = context.query.callbackUrl || null;
+
+    return {
+        props: {
+            callbackUrl
+        },
+    };
 }
