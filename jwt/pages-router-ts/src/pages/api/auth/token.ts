@@ -14,7 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 "authorities": ['aaa', 'bbb', 'ddd']
             });
 
-            setToken(res, JSON.stringify(token));
+            setToken(res, token);
             return res.status(200).json({
                 token
             });
