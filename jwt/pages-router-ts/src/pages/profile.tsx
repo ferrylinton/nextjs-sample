@@ -1,6 +1,5 @@
 
 import { useAppContext } from "@/app-context";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 
 export default function ProfilePage() {
@@ -13,20 +12,3 @@ export default function ProfilePage() {
     </main>
   )
 }
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  console.log('profile getServerSideProps........');
-  // const session = await getSession({ req: context.req });
-  // console.log(session);
-
-  // if (!session) {
-  //   context.res.writeHead(302, { Location: "/login" });
-  //   context.res.end();
-
-  //   return { props: {} };
-  // }
-
-  return {
-    props: {},
-  };
-};

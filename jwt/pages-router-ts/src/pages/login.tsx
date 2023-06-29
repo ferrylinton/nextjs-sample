@@ -1,7 +1,7 @@
 import { useAppContext } from '@/app-context';
 import { callLoginApi } from '@/libs/auth-api';
 import { JWT_COOKIE_NAME } from '@/libs/constant';
-import { GetServerSidePropsContext, NextPageContext } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 
@@ -15,8 +15,8 @@ export default function LoginPage() {
     const [error, setError] = useState(false);
 
     const [state, setState] = useState({
-        username: "",
-        password: ""
+        username: "admin",
+        password: "admin"
     });
 
     const onFieldChange = (event: any) => {
@@ -32,7 +32,7 @@ export default function LoginPage() {
             const response = await callLoginApi(username, password);
 
             if (response.status === 200 && response.data) {
-                setAuthtenticatedUser(response.data);
+                setAuthtenticatedUser(response.data.user);
                 router.push('/profile');
             } else {
                 setError(true);
@@ -59,6 +59,7 @@ export default function LoginPage() {
                     type="text"
                     placeholder="Username"
                     name='username'
+                    value={state.username}
                     maxLength={50}
                     onChange={onFieldChange}
                 />
@@ -68,6 +69,7 @@ export default function LoginPage() {
                     type="password"
                     placeholder="Password"
                     name='password'
+                    value={state.password}
                     maxLength={50}
                     onChange={onFieldChange}
                 />
@@ -76,66 +78,38 @@ export default function LoginPage() {
                     type="submit"
                     className='w-full p-3 text text-slate-100 hover:text-white uppercase leading-tight border border-blue-600 bg-blue-500 hover:bg-blue-600 rounded'>Login</button>
 
+                <div className='w-full p-1 text-xs leading-tight border border-slate-400 rounded bg-slate-100'>
+                    <table className='mx-auto'>
+                        <tbody>
+                            <tr>
+                                <th>Username</th>
+                                <td>: admin</td>
+                            </tr>
+                            <tr>
+                                <th>Password</th>
+                                <td>: admin</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </form>
         </main>
     )
 }
 
-export async function getInitialProps(context: NextPageContext) {
-    console.log('login getInitialProps........');
-    return {
-        props: {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+    const token = context.req?.cookies[JWT_COOKIE_NAME];
+
+    if (token) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/profile'
+            }
+        }
+    } else {
+        return {
+            props: {}
         }
     }
-  }
-  
-  
-  
-  export async function getServerSideProps(context: GetServerSidePropsContext) {
-    console.log('login getServerSideProps........');
-    const token = context.req?.cookies[JWT_COOKIE_NAME]
-    return {
-        props: {
-        }
-    }
-  }
-
-// export async function getStaticProps({ locale } : NextPageContext) {
-//     console.log(locale) // Logs current locale    
-//     return {
-//         props: {
-//         }
-//     }
-// }
-
-// export async function getInitialProps(context: NextPageContext) {
-//     console.log('login getInitialProps........................');
-  
-//     return {
-//       props: {
-//       }
-//     }
-//   }
-
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//     // const token = context.req?.cookies[COOKIE_NAME];
-
-//     // if (token && token.length > 10) {
-//     //     try {
-//     //         await verifyToken(token);
-//     //         return {
-//     //             redirect: {
-//     //                 permanent: false,
-//     //                 destination: "/login",
-//     //             },
-//     //             props: {},
-//     //         };
-//     //     } catch (error: any) {
-//     //         console.log(error);
-//     //     }
-//     // }
-
-//     return {
-//         props: {}
-//     };
-// }
+}
