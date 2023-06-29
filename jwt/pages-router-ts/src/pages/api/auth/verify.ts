@@ -1,4 +1,5 @@
-import { verifyToken } from '@/libs/jose';
+import { getIpFromApi } from '@/libs/header';
+import { verifyToken } from '@/libs/jwt';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 
@@ -8,12 +9,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const { token } = req.body;
 
         try {
-            const payload = await verifyToken(token);
+            const payload = await verifyToken(token, getIpFromApi(req));
+            const user = JSON.parse(payload.sub as string) as AuthenticatedUser;
             return res.status(200).json({
-                payload
+                user
             });
         } catch (error: any) {
-            console.log(error);
 
             if(error.name === 'JWTExpired'){
                 return res.status(200).json({

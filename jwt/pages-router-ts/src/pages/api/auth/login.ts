@@ -1,25 +1,31 @@
-import { removeToken, setToken } from '@/libs/cookie';
-import { generateToken } from '@/libs/jose';
+import { saveToken } from '@/libs/cookie';
+import { getIpFromApi } from '@/libs/header';
+import { stringLastChars } from '@/libs/helper';
+import { generateToken } from '@/libs/jwt';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+    console.log(process.env.NODE_ENV);
 
     if (req.method === 'POST') {
         const { username, password } = req.body;
 
         if (username === 'admin' && password === 'admin') {
-            const token = await generateToken({
+            const user = {
                 "username": "ferrylinton",
-                "authorities": ['aaa', 'bbb', 'ddd']
-            });
+                "authorities": ["aaa", "bbb", "ddd"]
+            }
+            const token = await generateToken(JSON.stringify(user), getIpFromApi(req));
+            console.log(stringLastChars(token));
 
-            setToken(res, token);
+            saveToken(res, JSON.stringify(user), token);
+            res.setHeader('Allow', ['POST']);
             return res.status(200).json({
+                user,
                 token
             });
         } else {
-            removeToken(res);
             return res.status(401).json({
                 message: "Wrong credentials"
             });

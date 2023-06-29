@@ -1,15 +1,16 @@
-import { login } from '@/libs/auth';
-import { verifyToken } from '@/libs/jose';
-import { GetServerSidePropsContext } from 'next';
+import { useAppContext } from '@/app-context';
+import { callLoginApi } from '@/libs/auth-api';
+import { JWT_COOKIE_NAME } from '@/libs/constant';
+import { GetServerSidePropsContext, NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
-
-const COOKIE_NAME = process.env.JWT_COOKIE_NAME || 'TOKEN';
 
 
 export default function LoginPage() {
 
-    const router = useRouter()
+    const router = useRouter();
+
+    const { setAuthtenticatedUser } = useAppContext();
 
     const [error, setError] = useState(false);
 
@@ -28,12 +29,11 @@ export default function LoginPage() {
         const { username, password } = state;
 
         try {
-            const response = await login(username, password);
-            console.log(response);
-            console.log(response.status);
-            console.log(response.status === 200)
-            if (response.status === 200) {
-                router.push('/profile')
+            const response = await callLoginApi(username, password);
+
+            if (response.status === 200 && response.data) {
+                setAuthtenticatedUser(response.data);
+                router.push('/profile');
             } else {
                 setError(true);
             }
@@ -81,25 +81,61 @@ export default function LoginPage() {
     )
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-    // const token = context.req?.cookies[COOKIE_NAME];
-
-    // if (token && token.length > 10) {
-    //     try {
-    //         await verifyToken(token);
-    //         return {
-    //             redirect: {
-    //                 permanent: false,
-    //                 destination: "/login",
-    //             },
-    //             props: {},
-    //         };
-    //     } catch (error: any) {
-    //         console.log(error);
-    //     }
-    // }
-
+export async function getInitialProps(context: NextPageContext) {
+    console.log('login getInitialProps........');
     return {
-        props: {}
-    };
-}
+        props: {
+        }
+    }
+  }
+  
+  
+  
+  export async function getServerSideProps(context: GetServerSidePropsContext) {
+    console.log('login getServerSideProps........');
+    const token = context.req?.cookies[JWT_COOKIE_NAME]
+    return {
+        props: {
+        }
+    }
+  }
+
+// export async function getStaticProps({ locale } : NextPageContext) {
+//     console.log(locale) // Logs current locale    
+//     return {
+//         props: {
+//         }
+//     }
+// }
+
+// export async function getInitialProps(context: NextPageContext) {
+//     console.log('login getInitialProps........................');
+  
+//     return {
+//       props: {
+//       }
+//     }
+//   }
+
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//     // const token = context.req?.cookies[COOKIE_NAME];
+
+//     // if (token && token.length > 10) {
+//     //     try {
+//     //         await verifyToken(token);
+//     //         return {
+//     //             redirect: {
+//     //                 permanent: false,
+//     //                 destination: "/login",
+//     //             },
+//     //             props: {},
+//     //         };
+//     //     } catch (error: any) {
+//     //         console.log(error);
+//     //     }
+//     // }
+
+//     return {
+//         props: {}
+//     };
+// }
