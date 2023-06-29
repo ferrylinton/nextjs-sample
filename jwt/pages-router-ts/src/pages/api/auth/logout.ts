@@ -1,4 +1,4 @@
-import { clearCookies } from '@/libs/cookie';
+import { clearCookies } from '@/libs/api-util';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 

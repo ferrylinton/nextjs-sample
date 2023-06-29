@@ -1,5 +1,5 @@
 import { useAppContext } from '@/app-context';
-import { callLoginApi } from '@/libs/auth-api';
+import { callLoginApi } from '@/libs/client-api';
 import { JWT_COOKIE_NAME } from '@/libs/constant';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';

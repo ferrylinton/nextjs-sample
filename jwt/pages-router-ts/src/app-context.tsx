@@ -1,9 +1,9 @@
 import Cookies from 'js-cookie';
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
-import { getUserFromCookie } from './libs/cookie';
 import { USER_COOKIE_NAME } from './libs/constant';
 import { useRouter } from 'next/router';
-import { callLogoutApi } from './libs/auth-api';
+import { callLogoutApi } from './libs/client-api';
+import { getUserFromCookie } from './libs/client-util';
 
 
 export const AppContext = createContext<AppContextType>({

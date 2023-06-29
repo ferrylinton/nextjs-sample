@@ -1,7 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { JWT_COOKIE_NAME, JWT_EXPIRES_IN_MS, JWT_SECRET_KEY, USER_COOKIE_NAME } from "./constant";
 import { jwtVerify } from "jose";
-
+import { NextRequest, NextResponse } from "next/server";
+import { JWT_COOKIE_NAME, JWT_SECRET_KEY, USER_COOKIE_NAME } from "./constant";
 
 
 export async function verifyRequest(req: NextRequest) {

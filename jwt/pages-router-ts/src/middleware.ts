@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyRequest } from "./libs/jwt";
+import { verifyRequest } from "./libs/middleware-util";
 
 const PUBLIC_FILE = /\.(.*)$/;
 

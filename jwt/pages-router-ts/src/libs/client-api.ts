@@ -17,3 +17,11 @@ export async function callLoginApi(username: string, password: string) {
 export async function callLogoutApi() {
     return await instance.post("/api/auth/logout")
 };
+
+export async function callHeloApi(token: string) {
+    return await instance.get(`${process.env.NEXT_PUBLIC_HOST}/api/hello`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+};

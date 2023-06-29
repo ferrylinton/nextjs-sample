@@ -1,6 +1,5 @@
-import { saveToken } from '@/libs/cookie';
-import { getIpFromApi } from '@/libs/header';
-import { stringLastChars } from '@/libs/helper';
+import { addTokenCookie, getIp } from '@/libs/api-util';
+import { stringLastChars } from '@/libs/string-util';
 import { generateToken } from '@/libs/jwt';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -16,10 +15,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 "username": "ferrylinton",
                 "authorities": ["aaa", "bbb", "ddd"]
             }
-            const token = await generateToken(JSON.stringify(user), getIpFromApi(req));
+            const token = await generateToken(JSON.stringify(user), getIp(req));
             console.log(stringLastChars(token));
 
-            saveToken(res, JSON.stringify(user), token);
+            addTokenCookie(res, JSON.stringify(user), token);
             res.setHeader('Allow', ['POST']);
             return res.status(200).json({
                 user,
