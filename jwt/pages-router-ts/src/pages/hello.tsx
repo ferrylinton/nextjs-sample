@@ -1,6 +1,6 @@
 
 import { callHeloApi } from "@/libs/client-api";
-import { getToken } from "@/libs/server-util";
+import { getIp, getToken } from "@/libs/server-util";
 import { GetServerSidePropsContext } from "next";
 
 type Props = {
@@ -21,14 +21,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   try {
     const token = getToken(context);
-    const response = await callHeloApi(token as string);
+    console.log(token);
+    console.log(`${process.env.NEXT_PUBLIC_HOST}/api/hello`);
+    console.log(getIp(context));
+    const response = await callHeloApi(token as string, getIp(context));
 
     if (response.status === 200 && response.data) {
       message = response.data.message;
     }
 
   } catch (error: any) {
-    console.log(error);
     message = error.message
   }
 

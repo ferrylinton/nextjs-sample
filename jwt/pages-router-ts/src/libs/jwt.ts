@@ -11,6 +11,8 @@ function getExpirationTime() {
 }
 
 export async function generateToken(data: string, ip: string) {
+    console.log('generate token ....');
+    console.log(JWT_SECRET_KEY + ip);
     return await new SignJWT({})
         .setSubject(data)
         .setProtectedHeader({ alg })

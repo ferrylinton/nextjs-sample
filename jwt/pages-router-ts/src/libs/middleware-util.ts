@@ -8,6 +8,8 @@ export async function verifyRequest(req: NextRequest) {
 
     if (token && token.length > 50) {
         try {
+            console.log('verify token ....');
+            console.log(JWT_SECRET_KEY + getIp(req));
             await jwtVerify(token, new TextEncoder().encode(JWT_SECRET_KEY + getIp(req)));
             return NextResponse.next()
         } catch (error: any) {
@@ -37,11 +39,13 @@ export async function verifyRequest(req: NextRequest) {
 function getIp(req: NextRequest) {
     try {
         let ip = req.ip ?? req.headers.get('x-real-ip');
+        console.log('x-real-ip : ' + ip);
         if (ip) {
             return ip;
         }
 
-        const forwardedFor = req.headers.get('x-forwarded-for')
+        const forwardedFor = req.headers.get('x-forwarded-for');
+        console.log('x-forwarded-for : ' + forwardedFor);
         if (forwardedFor) {
             return forwardedFor.split(',').at(0) ?? 'Unknown';
         }

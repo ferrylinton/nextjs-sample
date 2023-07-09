@@ -18,10 +18,11 @@ export async function callLogoutApi() {
     return await instance.post("/api/auth/logout")
 };
 
-export async function callHeloApi(token: string) {
+export async function callHeloApi(token: string, ip: string) {
     return await instance.get(`${process.env.NEXT_PUBLIC_HOST}/api/hello`, {
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'x-forwarded-for': ip
         }
     })
 };
