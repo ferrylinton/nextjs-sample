@@ -1,0 +1,38 @@
+{
+  "name": "nextjs-mongodb-crud-ts",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon",
+    "copy": "shx cp -R .next/static .next/standalone/.next && shx cp -R public .next/standalone",
+    "build": "next build && tsc --project tsconfig.server.json && npm run copy",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "start2": "cross-env NODE_ENV=production node .next/standalone/server.js",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "animate.css": "^4.1.1",
+    "clsx": "^2.1.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "mongodb": "^6.9.0",
+    "next": "14.2.13",
+    "next-intl": "^3.20.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "winston": "^3.14.2",
+    "zod": "^3.23.8",
+    "zustand": "^5.0.0-rc.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.13",
+    "nodemon": "^3.1.7",
+    "shx": "^0.3.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  }
+}
