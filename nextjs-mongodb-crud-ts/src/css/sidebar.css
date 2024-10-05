@@ -37,7 +37,7 @@
 }
 
 
-.sidebar-close.toggle-menu {
+.showSidebar .toggle-menu {
     position: absolute;
     top: 0;
     right: 0;
@@ -46,11 +46,11 @@
     border-radius: 50%;
 }
 
-.sidebar-close.toggle-menu:hover {
+.showSidebar .toggle-menu:hover {
     background-color: hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 6% ));
 }
 
-.sidebar-close.toggle-menu span {
+.showSidebar .toggle-menu span {
     background-color: var(--inverse-text);
 }
 
@@ -113,7 +113,7 @@
 
 .author-info-item {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     gap: 0.5rem;
     font-size: 0.9rem;

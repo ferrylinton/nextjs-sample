@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteTodoById } from '@/actions/todo-action';
+import { useAlertStore } from '@/hooks/alert-store';
 import { useConfirmContext } from '@/providers/confirm-provider';
 import { Todo } from '@/types/todo-type';
 import { useTranslations } from 'next-intl'
@@ -17,18 +18,21 @@ export default function DeleteButton({todo} : Props) {
 
     const router = useRouter();
 
+    const { showAlert, hideAlert } = useAlertStore();
+
     const { setMessage, confirm } = useConfirmContext();
 
     const handleOnClickDelete = async () => {
+        hideAlert();
         setMessage(t("deleteData"))
         const answer = await confirm();
 
         if(answer){
             await deleteTodoById(todo.id as string);
+            showAlert(t("dataIsDeleted", { task: todo.task as string }));
             router.replace("/");
         }
     }
-
 
     return (
         <button type="button" className="btn btn-danger" onClick={handleOnClickDelete}>

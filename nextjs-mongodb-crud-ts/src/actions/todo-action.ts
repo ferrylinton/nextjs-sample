@@ -1,18 +1,47 @@
 "use server";
 
-import { create, update, deleteById } from "@/services/todo-service";
-import { redirect } from "next/navigation";
+import { create, deleteById, update } from "@/services/todo-service";
+import { CreateTodoSchema } from "@/validations/TodoSchema";
+import { revalidatePath } from "next/cache";
 
-export const createTodo = async (formData: FormData) => {
-    const task = formData.get('task');
-    await create(task as string);
-    redirect('/')
+interface PostFormState {
+    fieldErrors?: {
+        task?: string[] | undefined;
+    }
+    errorMessage?: string
+}
+
+export const createTodo = async (formData: FormData): Promise<PostFormState> => {
+
+    const formState: PostFormState = {};
+
+    const validation = CreateTodoSchema.safeParse({
+        task: formData.get('task')
+    });
+
+    if (!validation.success) {
+        return {
+            fieldErrors: validation.error.flatten().fieldErrors
+        }
+    }
+
+    try {
+        await create(validation.data.task);
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Error on createTodo"
+        return { errorMessage }
+    }
+
+    revalidatePath('/');
+    return formState;
 }
 
 export const udpateTodoById = async (id: string) => {
-    return await update(id);
+    await update(id);
+    revalidatePath('/');
 }
 
 export const deleteTodoById = async (id: string) => {
-    return await deleteById(id);
+    await deleteById(id);
+    revalidatePath('/')
 }

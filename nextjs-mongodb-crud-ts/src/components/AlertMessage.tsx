@@ -5,13 +5,16 @@ import React from 'react'
 
 export const AlertMessage = () => {
 
-    const { show, message, alertType } = useAlertStore();
+    const { show, message, alertType, hideAlert } = useAlertStore();
 
     return (
         <div className={clsx("alert",
             alertType === "danger" ? "alert-danger" : "alert-success",
             show && "show")}>
-            <p>{message}</p>
+            <p>
+                {message}
+                <span className="alert-close" onClick={() => hideAlert()}>&times;</span>
+            </p>
         </div>
     )
 }

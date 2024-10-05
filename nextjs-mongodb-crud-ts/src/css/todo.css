@@ -9,7 +9,7 @@
 
 .todo-list-toolbar {
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     justify-content: space-between;
     width: 100%;
     padding: 0 0.5rem;
@@ -113,7 +113,7 @@
 .todo-list .action {
     padding-right: 1rem;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     gap: 4px;
 }
 
@@ -150,6 +150,12 @@
     display: flex;
     gap: 1rem;
     flex-direction: column;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
 }
 
 .todo-form input[type="text"] {

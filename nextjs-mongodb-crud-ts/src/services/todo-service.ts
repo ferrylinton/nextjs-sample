@@ -81,7 +81,7 @@ export const create = async (task: string) => {
 	const todo: Todo = {
 		task,
 		done: false,
-		createdAt: (new Date()).toUTCString()
+		createdAt: (new Date()).toISOString()
 	};
 	const todoCollection = await getCollection<Todo>(TODO_COLLECTION);
 	return await todoCollection.insertOne(todo);
@@ -98,7 +98,7 @@ export const create = async (task: string) => {
  */
 export const update = async (_id: string) => {
 	const todoCollection = await getCollection<Todo>(TODO_COLLECTION);
-	const updatedAt = (new Date()).toUTCString();
+	const updatedAt = (new Date()).toISOString();
 	const done = true;
 	return await todoCollection.updateOne({ _id: new ObjectId(_id) }, { $set: { done, updatedAt } });
 };

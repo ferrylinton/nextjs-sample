@@ -1,11 +1,12 @@
 "use client"
 import { udpateTodoById } from '@/actions/todo-action';
+import { useAlertStore } from '@/hooks/alert-store';
 import { CheckIcon } from '@/icons/CheckIcon';
 import EyeIcon from '@/icons/EyeIcon';
 import { useConfirmContext } from '@/providers/confirm-provider';
 import { Todo } from '@/types/todo-type';
 import clsx from 'clsx';
-import { useFormatter } from 'next-intl';
+import { useFormatter, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -21,15 +22,21 @@ export const TodoItem = ({ index, todo }: Props) => {
 
     const format = useFormatter();
 
+    const t = useTranslations("common");
+
+    const { showAlert, hideAlert } = useAlertStore();
+
     const { setMessage, confirm } = useConfirmContext();
 
     const handleOnClickUpdate = async () => {
-        setMessage("Update data?")
+        hideAlert();
+        setMessage(t("updateData"))
         const answer = await confirm();
 
-        if(answer){
+        if (answer) {
             await udpateTodoById(todo.id as string);
-            router.refresh();
+            showAlert(t("dataIsUpdated", { task: todo?.task }) as string)
+            router.replace("/")
         }
     }
 

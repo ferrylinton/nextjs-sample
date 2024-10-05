@@ -35,26 +35,25 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <ThemeContextProvider>
             <ConfirmProvider>
-            <Sidebar />
-            <main className="main">
-              <nav className="nav">
-                <div className="nav-content">
-                  <ToggleSidebar />
-                  <div className="logo"><a href="/">TODO</a></div>
-                  <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "0 0.5rem" }}>
-                    <LocaleMenu/>
-                    <ToggleTheme />
+              <Sidebar />
+              <main className="main">
+                <nav className="nav">
+                  <div className="nav-content">
+                    <ToggleSidebar />
+                    <div className="logo"><a href="/">TODO</a></div>
+                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "0 0.5rem" }}>
+                      <LocaleMenu />
+                      <ToggleTheme />
+                    </div>
+                  </div>
+                </nav>
+                <div className="main-content">
+                  <div className="container">
+                    <AlertMessage />
+                    {children}
                   </div>
                 </div>
-              </nav>
-              <div className="main-content">
-                <div className="container">
-                  {children}
-                  <AlertMessage/>
-                </div>
-              </div>
-
-            </main>
+              </main>
             </ConfirmProvider>
           </ThemeContextProvider>
         </NextIntlClientProvider>

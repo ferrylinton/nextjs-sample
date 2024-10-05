@@ -1,11 +1,12 @@
 'use client';
 
+import { useClickOutside } from '@/hooks/useClickOutside';
 import { Locale } from '@/i18n/config';
 import { EnglishIcon } from '@/icons/EnglishIcon';
 import { IndonesiaIcon } from '@/icons/IndonesiaIcon';
 import { setUserLocale } from '@/services/locale';
 import { useLocale } from 'next-intl';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 
 export const LocaleMenu = () => {
@@ -13,6 +14,14 @@ export const LocaleMenu = () => {
   const locale = useLocale();
 
   const [checked, setChecked] = useState<boolean>(false);
+
+  const ref = useRef<HTMLUListElement>(null);
+
+  useClickOutside(ref, () => {
+    if(checked){
+      setChecked(false);
+    }
+  })
 
   const setLocale = (nextLocale: string) => {
     setUserLocale(nextLocale as Locale);
@@ -36,7 +45,7 @@ export const LocaleMenu = () => {
           <div className="dd-button-arrow"></div>
         </div>
         <input type="checkbox" className="dd-input" id="test" checked={checked} onChange={onChangeHandler} />
-        <ul className="dd-menu">
+        <ul className="dd-menu" ref={ref}>
           <li>
             <a onClick={(e) => {
               e.preventDefault();

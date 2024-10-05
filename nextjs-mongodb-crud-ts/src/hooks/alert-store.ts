@@ -31,10 +31,7 @@ export const useAlertStore = create<AlertState>((set) => ({
     showAlert: (message: string, alertType?: AlertType, todo?: Todo) => {
         
         set(() => ({ show: true, message, alertType, todo }));
-
-        setTimeout(() => {
-            set(() => (DEFAULT_VALUE));
-        }, 10000);
+        
     },
 
     hideAlert: () => {
