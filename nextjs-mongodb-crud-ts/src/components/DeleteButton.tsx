@@ -12,24 +12,23 @@ type Props = {
     todo: Todo
 }
 
-export default function DeleteButton({todo} : Props) {
+export default function DeleteButton({ todo }: Props) {
 
     const t = useTranslations("common");
 
     const router = useRouter();
 
-    const { showAlert, hideAlert } = useAlertStore();
+    const { alert } = useAlertStore();
 
     const { setMessage, confirm } = useConfirmContext();
 
     const handleOnClickDelete = async () => {
-        hideAlert();
         setMessage(t("deleteData"))
         const answer = await confirm();
 
-        if(answer){
+        if (answer) {
             await deleteTodoById(todo.id as string);
-            showAlert(t("dataIsDeleted", { task: todo.task as string }));
+            alert.success(t("dataIsDeleted", { task: todo.task as string }));
             router.replace("/");
         }
     }

@@ -12,18 +12,17 @@ export default function TodoAddForm() {
 
     const ref = useRef<HTMLFormElement>(null)
 
-    const { showAlert, hideAlert } = useAlertStore();
+    const { alert } = useAlertStore();
 
     const createTodoAction = async (formData : FormData) => {
-        hideAlert();
         const {fieldErrors, errorMessage} = await createTodo(formData);
 
         if(fieldErrors?.task){
-            showAlert(t(fieldErrors.task?.[0]), "danger")
+            alert.error(t(fieldErrors.task?.[0]))
         }else if(errorMessage){
-            showAlert(errorMessage, "danger");
+            alert.error(errorMessage);
         }else{
-            showAlert(t("dataIsSaved", { task: formData.get("task") as string }));
+            alert.success(t("dataIsSaved", { task: formData.get("task") as string }));
             redirect('/');
         }
     }

@@ -24,18 +24,17 @@ export const TodoItem = ({ index, todo }: Props) => {
 
     const t = useTranslations("common");
 
-    const { showAlert, hideAlert } = useAlertStore();
+    const { alert } = useAlertStore();
 
     const { setMessage, confirm } = useConfirmContext();
 
     const handleOnClickUpdate = async () => {
-        hideAlert();
         setMessage(t("updateData"))
         const answer = await confirm();
 
         if (answer) {
             await udpateTodoById(todo.id as string);
-            showAlert(t("dataIsUpdated", { task: todo?.task }) as string)
+            alert.success(t("dataIsUpdated", { task: todo?.task }) as string)
             router.replace("/")
         }
     }

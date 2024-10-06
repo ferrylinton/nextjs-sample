@@ -1,4 +1,4 @@
-import { AlertMessage } from "@/components/AlertMessage";
+import { AlertMessageContainer } from "@/components/AlertMessageContainer";
 import { LocaleMenu } from "@/components/LocaleMenu";
 import { Sidebar } from "@/components/Sidebar";
 import { ToggleSidebar } from "@/components/ToggleSidebar";
@@ -49,7 +49,7 @@ export default async function RootLayout({
                 </nav>
                 <div className="main-content">
                   <div className="container">
-                    <AlertMessage />
+                    <AlertMessageContainer />
                     {children}
                   </div>
                 </div>
