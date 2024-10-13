@@ -32,6 +32,7 @@
         "tooManyRequest": "Terlalu banyak permintaan, silakan dicoba beberapa saat lagi",
         "invalidToken": "Token tidak valid",
         "noTokenProvided": "Tidak ada token yang disediakan",
-        "invalidIp": "Token memiliki IP yang tidak valid"
+        "invalidIp": "Token memiliki IP yang tidak valid",
+        "tryAgain": "Coba Lagi"
     }
 }

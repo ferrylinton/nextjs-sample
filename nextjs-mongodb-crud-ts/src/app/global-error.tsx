@@ -1,43 +1,30 @@
-'use client'
+'use client';
 
-import { useEffect } from "react"
+import { ErrorPageProps } from '@/types/error-page-type';
+import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useEffect } from 'react';
 
+export default function GlobalErrorPage({ error, reset }: ErrorPageProps) {
 
+  const t = useTranslations("common");
 
-export default function GlobalError({
+  useEffect(() => {
+    console.log("global-error-page");
+    console.error(error)
+  }, [error])
 
-    error,
-
-    reset,
-
-  }: {
-
-    error: Error & { digest?: string }
-
-    reset: () => void
-
-  }) {
-
-    useEffect(() => {
-        // Log the error to an error reporting service
-        console.error(error)
-      }, [error])
-
-    return (
-
-      <html>
-
-        <body>
-
-          <h2>Something went wrong!</h2>
-
-          <button onClick={() => reset()}>Try again</button>
-
-        </body>
-
-      </html>
-
-    )
-
-  }
-
+  return (
+    <div className="error-box">
+      <p>{error.message}</p>
+      <div className='buttons' style={{justifyContent: 'center'}}>
+        <Link href={"/"} className="btn btn-primary">
+          {t("home")}
+        </Link>
+        <button className="btn btn-secondary" onClick={() => reset()}>
+          {t("tryAgain")}
+        </button>
+      </div>
+    </div>
+  )
+}

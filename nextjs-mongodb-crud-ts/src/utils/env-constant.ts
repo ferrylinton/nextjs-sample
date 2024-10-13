@@ -23,6 +23,7 @@ export const PORT = process.env.PORT || '5001';
 
 export const JWT_SECRET = process.env.JWT_SECRET || '268980feac54d920e3c147e3a3d42179393102d3dea5e7e31c282bc9fd76dffe';
 export const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '15m';
+export const TOKEN_COOKIE_EXPIRES = parseInt(process.env.TOKEN_COOKIE_EXPIRES || '900');
 
 export const MONGODB_URL = process.env.MONGODB_URL;
 export const MONGODB_AUTH_SOURCE = process.env.MONGODB_AUTH_SOURCE;

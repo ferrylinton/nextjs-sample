@@ -1,30 +1,30 @@
-'use client' // Error components must be Client Components
- 
-import { useEffect } from 'react'
- 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string }
-  reset: () => void
-}) {
+'use client';
+
+import { ErrorPageProps } from '@/types/error-page-type';
+import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useEffect } from 'react';
+
+export default function ErrorPage({ error, reset }: ErrorPageProps) {
+
+  const t = useTranslations("common");
+
   useEffect(() => {
-    // Log the error to an error reporting service
+    console.log("error-page");
     console.error(error)
   }, [error])
- 
+
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again
-      </button>
+    <div className="error-box">
+      <p>{error.message}</p>
+      <div className='buttons' style={{justifyContent: 'center'}}>
+        <Link href={"/"} className="btn btn-primary">
+          {t("home")}
+        </Link>
+        <button className="btn btn-secondary" onClick={() => reset()}>
+          {t("tryAgain")}
+        </button>
+      </div>
     </div>
   )
 }

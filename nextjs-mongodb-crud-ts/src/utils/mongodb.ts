@@ -46,7 +46,7 @@ export const getMongoClient = async () => {
         try {
 			mongoClient = getMongoClientInstance().connect();
 		} catch (error) {
-			console.log(error);
+			logger.error(error);
 		}
 
 		return mongoClient;

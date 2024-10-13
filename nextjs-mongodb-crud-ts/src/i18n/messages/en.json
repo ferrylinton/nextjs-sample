@@ -32,6 +32,7 @@
         "tooManyRequest": "Too many requests, please try again later",
         "invalidToken": "Invalid token",
         "noTokenProvided": "No token provided",
-        "invalidIp": "Token has invalid IP"
+        "invalidIp": "Token has invalid IP",
+        "tryAgain": "Try Again"
     }
 }

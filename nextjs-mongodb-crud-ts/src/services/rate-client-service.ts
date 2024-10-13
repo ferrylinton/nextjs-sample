@@ -1,7 +1,5 @@
-import { RateLimitResponse } from "@/types/rate-type";
-import { RATE_LIMIT_MAX } from "@/utils/env-constant";
 
-export const isExceedRateLimit = async (ip: string) => {
+export const isExceedRateLimit = async (ip: string, token: string | undefined) => {
 
     const response = await fetch(`${process.env.BASE_URL}/api/ratelimit`, {
         method: 'POST',
@@ -9,14 +7,13 @@ export const isExceedRateLimit = async (ip: string) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ ip })
+        body: JSON.stringify({ ip, token })
     });
 
-    const data: RateLimitResponse = await response.json();
-
-    if (!data || data.ip !== ip || data.count > RATE_LIMIT_MAX) {
-        return true;
-    } else {
-        return false;
+    const data = await response.json();
+    
+    return {
+        status: response.status,
+        ...data
     }
 }

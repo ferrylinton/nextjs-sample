@@ -1,4 +1,6 @@
 export type RateLimitResponse = {
-    ip: string,
-    count: number
+    status: number,
+    ip?: string,
+    count?: number,
+    errorMessage?: string
 }
