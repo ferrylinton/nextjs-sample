@@ -1,14 +1,26 @@
 "use server";
 
-import { create, deleteById, update } from "@/services/todo-service";
+import { create, deleteById, find, update } from "@/services/todo-service";
+import { FindResult } from "@/types/common-type";
+import { Todo } from "@/types/todo-type";
 import { CreateTodoSchema } from "@/validations/TodoSchema";
 import { revalidatePath } from "next/cache";
 
-interface PostFormState {
+type PostFormState = {
     fieldErrors?: {
         task?: string[] | undefined;
     }
     errorMessage?: string
+}
+
+export const getTodoes = async (): Promise<FindResult<Todo>> => {
+    try {
+        return find();
+    } catch (error: any) {
+        return {
+            errorMessage: error.message
+        }
+    }
 }
 
 export const createTodo = async (formData: FormData): Promise<PostFormState> => {

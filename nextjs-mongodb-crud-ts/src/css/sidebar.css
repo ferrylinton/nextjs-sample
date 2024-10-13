@@ -37,7 +37,7 @@
 }
 
 
-.showSidebar .toggle-menu {
+.sidebar-close.toggle-menu {
     position: absolute;
     top: 0;
     right: 0;
@@ -46,11 +46,11 @@
     border-radius: 50%;
 }
 
-.showSidebar .toggle-menu:hover {
+.sidebar-close.toggle-menu:hover {
     background-color: hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 6% ));
 }
 
-.showSidebar .toggle-menu span {
+.sidebar-close.toggle-menu span {
     background-color: var(--inverse-text);
 }
 
@@ -77,11 +77,17 @@
 }
 
 .author-image {
+    position: relative;
+    overflow: hidden;
     width: 180px;
     height: 180px;
     border-radius: 50%;
     border: solid 3px hsla(var(--inverse-text-h), var(--inverse-text-s), 100%, 1);
     box-shadow: 0 0 20px 0 hsla(var(--inverse-text-h), var(--inverse-text-s), 70%, 1);
+}
+
+.author-image image{
+    position: absolute;
 }
 
 .author-message {

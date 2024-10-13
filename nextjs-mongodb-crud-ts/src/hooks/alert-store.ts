@@ -20,6 +20,11 @@ type AlertState = {
     hideAlert: (id: string) => void
 }
 
+const isMessageExist = (alertList: AlertItem[], message: string) => {
+    const result = alertList.filter(item => item.message === message);
+    return result.length > 0
+}
+
 export const useAlertStore = create<AlertState>((set) => ({
     alertList: [],
 
@@ -27,29 +32,34 @@ export const useAlertStore = create<AlertState>((set) => ({
         success: (message: string) => {
 
             set((state) => ({
-                alertList: [
-                    {
-                        id: uuidv4(),
-                        message,
-                        alertType: AlertType.SUCCESS
-                    },
-                    ...state.alertList,
-                ]
+                alertList: isMessageExist(state.alertList, message) ?
+                    [...state.alertList] :
+                    [
+                        {
+                            id: uuidv4(),
+                            message,
+                            alertType: AlertType.SUCCESS
+                        },
+                        ...state.alertList
+                    ]
             }));
 
         },
 
         error: (message: string) => {
 
+
             set((state) => ({
-                alertList: [
-                    ...state.alertList,
-                    {
-                        id: uuidv4(),
-                        message,
-                        alertType: AlertType.ERROR
-                    }
-                ]
+                alertList: isMessageExist(state.alertList, message) ?
+                    [...state.alertList] :
+                    [
+                        {
+                            id: uuidv4(),
+                            message,
+                            alertType: AlertType.ERROR
+                        },
+                        ...state.alertList
+                    ]
             }));
 
         }

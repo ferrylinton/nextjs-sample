@@ -1,23 +1,29 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { headers } from "next/headers";
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import { isExceedRateLimit } from "./services/rate-client-service";
 
 
-export function middleware(request: NextRequest) {
-    console.log(request.url);
-    console.log(request.nextUrl.pathname);
-    console.log(request.method);
+export async function middleware(request: NextRequest) {
+    const ip = headers().get("x-forwarded-for") || "unknown";
+    const result = await isExceedRateLimit(ip as string);
+
+    if (result) {
+        return NextResponse.redirect(new URL('/ratelimiterror', request.url))
+    }
+
     return NextResponse.next()
 }
 
 export const config = {
     matcher: [
-        /*
-         * Match all request paths except for the ones starting with:
-         * - api (API routes)
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - favicon.ico, sitemap.xml, robots.txt (metadata files)
-         */
-        '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
-      ],
-}
+        {
+            source: "/((?!api/ratelimit|ratelimiterror|_next/static|_next/image|favicon.ico).*)",
+            missing: [
+                { type: "header", key: "next-router-prefetch" },
+                { type: "header", key: "next-action" },
+                { type: "header", key: "purpose", value: "prefetch" },
+            ],
+        },
+    ],
+};

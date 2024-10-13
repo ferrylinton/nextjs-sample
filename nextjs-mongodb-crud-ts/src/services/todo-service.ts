@@ -1,6 +1,7 @@
 import { ObjectId, WithId } from 'mongodb';
 import { getCollection } from '@/utils/mongodb';
 import { Todo } from '@/types/todo-type';
+import { FindResult } from '@/types/common-type';
 
 
 /**
@@ -15,7 +16,7 @@ import { Todo } from '@/types/todo-type';
 
 /**
  * @typedef {Object} Todo
- * @property {string} _id - The Id
+ * @property {string} id - The Id
  * @property {string} task - The task
  * @property {boolean} done - The status of the task
  * @property {date} createdAt - Created date
@@ -27,12 +28,7 @@ import { Todo } from '@/types/todo-type';
  */
 const TODO_COLLECTION = 'todoes';
 
-type FindResult = {
-	todoes: Array<Omit<Todo, "_id">>,
-	total: number
-}
-
-export const mapTodo = (todo: Todo | WithId<Todo>): Omit<Todo, "_id"> => {
+export const mapTodo = (todo: WithId<Todo>): Todo => {
 	const { _id, ...rest } = todo;
 	rest.id = _id?.toHexString();
 	return rest;
@@ -44,7 +40,7 @@ export const mapTodo = (todo: Todo | WithId<Todo>): Omit<Todo, "_id"> => {
  * @returns Array of {@link Todo} documetns.
  *
  */
-export const find = async (): Promise<FindResult> => {
+export const find = async (): Promise<FindResult<Todo>> => {
 	const todoCollection = await getCollection<Todo>(TODO_COLLECTION);
 	const todoes = await todoCollection.find().sort({ createdAt: -1 }).toArray();
 	const total = await todoCollection.countDocuments();
@@ -78,12 +74,12 @@ export const findById = async (_id: string) => {
  * @returns Object of {@link InsertOneResult}
  */
 export const create = async (task: string) => {
-	const todo: Todo = {
+	const todo: Omit<Todo, "id"> = {
 		task,
 		done: false,
 		createdAt: (new Date()).toISOString()
 	};
-	const todoCollection = await getCollection<Todo>(TODO_COLLECTION);
+	const todoCollection = await getCollection<Omit<Todo, "id">>(TODO_COLLECTION);
 	return await todoCollection.insertOne(todo);
 };
 

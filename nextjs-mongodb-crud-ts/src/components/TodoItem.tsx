@@ -33,9 +33,15 @@ export const TodoItem = ({ index, todo }: Props) => {
         const answer = await confirm();
 
         if (answer) {
-            await udpateTodoById(todo.id as string);
-            alert.success(t("dataIsUpdated", { task: todo?.task }) as string)
-            router.replace("/")
+            try {
+                await udpateTodoById(todo.id as string);
+                alert.success(t("dataIsUpdated", { task: todo?.task }) as string)
+                router.replace("/")
+            } catch (error: any) {
+                console.log(error);
+                alert.error(error.message);
+            }
+
         }
     }
 

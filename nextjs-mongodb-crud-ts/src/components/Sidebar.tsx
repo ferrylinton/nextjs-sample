@@ -1,5 +1,7 @@
 import { useTranslations } from "next-intl";
 import { ToggleSidebar } from "./ToggleSidebar";
+import Image from "next/image";
+import authorImage from "../../public/image/author.jpg"
 
 export const Sidebar = () => {
 
@@ -10,9 +12,11 @@ export const Sidebar = () => {
             <div className="sidebar-overlay"></div>
             <div className="sidebar">
                 <div className="sidebar-content">
-                    <ToggleSidebar/>
+                    <ToggleSidebar />
                     <div className="author">
-                        <img className="author-image" alt="/image/author.jpg" src={"/image/author.jpg"} />
+                        <div className="author-image">
+                            <Image src={authorImage} alt="/image/author.jpg" quality={75} priority />
+                        </div>
                         <h4 className="author-message">{t("hi")}</h4>
                         <h2 className="author-name">Ferry L. H.</h2>
                         <h3 className="author-title">Software Developer</h3>
@@ -43,13 +47,10 @@ export const Sidebar = () => {
                     <div className="build-with">
                         <h1>{t("builtWith")}</h1>
                         <ul>
-                            <li>ExpressJS</li>
-                            <li>Handlebars</li>
+                            <li>NextJS</li>
+                            <li>Mongodb</li>
                             <li>i18n</li>
-                            <li>Mysql</li>
-                            <li>Webpack</li>
-                            <li>Typescript</li>
-                            <li>Axios</li>
+                            <li>next-intl</li>
                             <li>Zod</li>
                         </ul>
                     </div>

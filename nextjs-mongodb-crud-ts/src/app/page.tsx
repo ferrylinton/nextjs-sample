@@ -1,58 +1,25 @@
-import { TodoItem } from '@/components/TodoItem';
 import * as todoService from "@/services/todo-service";
-import { getTranslations } from 'next-intl/server';
-import Link from 'next/link';
-
+import TodoList from '@/components/TodoList';
+import { FindResult } from "@/types/common-type";
+import { Todo } from "@/types/todo-type";
 
 export default async function HomePage() {
 
-  const t = await getTranslations('common');
+  let findResult: FindResult<Todo>;
 
-  const { todoes, total } = await todoService.find();
-
+  try {
+    findResult = await todoService.find();
+  } catch (error: any) {
+    findResult = {
+      total: 0,
+      todoes: [],
+      errorMessage: error.message
+    }
+  }
 
   return (
     <>
-      <div className="todo-list-toolbar">
-        <div className="total">
-          {t("total", { total })}
-        </div>
-        <Link href={"/add"} className="btn btn-primary">
-          {t("newTask")}
-        </Link>
-      </div>
-      <div className="todo-list">
-        <table>
-          <tbody>
-            {
-              todoes && todoes.map((todo, index) => {
-                return <TodoItem
-                  key={index}
-                  index={index}
-                  todo={todo}
-                />
-              })
-            }
-            {
-              !todoes && ["1", "2", "3"].map((num) => {
-                return <tr key={num}>
-                  <td>{num}</td>
-                  <td>
-                    <span className="skeleton-line"></span>
-                    <em className="skeleton-line" style={{ width: 100 }}></em>
-                  </td>
-                  <td>
-                    <div className="action">
-                      <div className="skeleton-square"></div>
-                      <div className="skeleton-square"></div>
-                    </div>
-                  </td>
-                </tr>
-              })
-            }
-          </tbody>
-        </table>
-      </div>
+      <TodoList {...findResult} />
     </>
   )
 }

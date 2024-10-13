@@ -130,7 +130,7 @@
 }
 
 .todo-list tr.new-todo {
-    background-color: var(--accent);
+    background-color: var(--success);
     color: var(--inverse-text);
 }
 
@@ -152,12 +152,6 @@
     flex-direction: column;
 }
 
-.form-group{
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-}
-
 .todo-form input[type="text"] {
     font-size: 16px;
     line-height: 28px;
@@ -171,7 +165,7 @@
 
 .todo-form input[type="text"]:focus {
     outline: none;
-    box-shadow: 0 0 0 3px hsla(var(--accent-h), var(--accent-s), calc(var(--accent-l) + 15%), 0.5);
+    box-shadow: 0 0 0 3px hsla(var(--primary-h), var(--primary-s), calc(var(--primary-l) + 15%), 0.5);
 }
 
 .dark .todo-form input[type="text"] {
@@ -180,7 +174,7 @@
 }
 
 .dark .todo-form input[type="text"]:focus {
-    box-shadow: 0 0 0 3px hsla(var(--accent-h), var(--accent-s), calc(var(--accent-l) + 15%), 0.5);
+    box-shadow: 0 0 0 3px hsla(var(--primary-h), var(--primary-s), calc(var(--primary-l) + 15%), 0.5);
 }
 
 .todo-form label {
